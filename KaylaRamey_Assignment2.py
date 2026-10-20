@@ -1,11 +1,15 @@
 import math
+import periodictable
 from periodictable.constants import avogadro_number
-from _testcapi import add_context_watcher
+
 
 # 1g of Yb-176
 mass_target_g = 1 #target mass of Yb-176 in grams
-molar_mass_Yb176 = 173.05 # g/mol (atomic mass of Yb-176)
+
+#molar_mass_Yb176 = 175.94 # g/mol (atomic mass of Yb-176)
 #avogadro_num = 6.022e23 #atoms/mol
+
+molar_masss_Yb176 = periodictable.Yb[176].mass
 avogadro_num = avogadro_number #atoms/mol 
 
 # initial number of Yb-176 atoms at t=0
@@ -42,8 +46,22 @@ def calc_Lu177(t_sec):
     
     return N_c
 
-max_atoms_Lu = 0
+max_atoms_Lu = 0 #find the maximum number of Lu-177 atoms
 time_at_max_weeks = 0 
+
+for i in range(1,500):
+        t_w = i * 0.05
+        t_s = t_w * sec_per_week
+        atoms_current = calc_Lu177(t_s)
+        
+        if atoms_current > max_atoms_Lu:
+            max_atoms_Lu = atoms_current
+            time_at_max_weeks = t_w
+        else: 
+            break #Lu has reached its max
+target_atoms_90 = 0.9 * max_atoms_Lu #because Lu has already peaked
+
+
 
 
 
